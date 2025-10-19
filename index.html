@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌹 Love from the Boys of 11.11 🌹</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #f9f0f2;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Password Modal Styles */
+        .password-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('./image/background.png');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            color: #fff;
+            text-align: center;
+        }
+
+        .password-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 90%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            z-index: 2;
+        }
+
+        .password-modal h2 {
+            font-size: 28px;
+            margin-bottom: 30px;
+            color: #ffb6c1;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .password-input-container {
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .password-modal input {
+            padding: 15px 20px;
+            font-size: 18px;
+            width: 100%;
+            border-radius: 50px;
+            border: 2px solid rgba(255, 182, 193, 0.5);
+            outline: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .password-modal input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .password-modal input:focus {
+            border-color: #ffb6c1;
+            box-shadow: 0 0 15px rgba(255, 182, 193, 0.7);
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .password-modal button {
+            padding: 15px 40px;
+            font-size: 18px;
+            background: linear-gradient(45deg, #d35656, #a32435);
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .password-modal button:hover {
+            background: linear-gradient(45deg, #ffb6c1, #d35656);
+            box-shadow: 0 8px 20px rgba(255, 182, 193, 0.5);
+            transform: translateY(-3px);
+        }
+
+        .password-modal button:active {
+            transform: translateY(1px);
+        }
+
+        .password-modal .error {
+            color: #ffb6c1;
+            margin-top: 15px;
+            font-size: 16px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Floating Hearts Background */
+        .floating-hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #ffb6c1;
+            transform: rotate(45deg);
+            opacity: 0;
+        }
+
+        .heart:before, .heart:after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #ffb6c1;
+            border-radius: 50%;
+        }
+
+        .heart:before {
+            top: -10px;
+            left: 0;
+        }
+
+        .heart:after {
+            top: 0;
+            left: -10px;
+        }
+
+        /* Music Controls */
+        .music-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .music-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 182, 193, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .music-btn:hover {
+            transform: scale(1.1);
+            background: rgba(255, 182, 193, 1);
+        }
+
+        .music-btn i {
+            color: white;
+            font-size: 24px;
+        }
+
+        /* Animation for disappearing */
+        @keyframes disappear {
+            0% { 
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(1.1);
+            }
+            100% { 
+                opacity: 0;
+                transform: scale(0);
+                display: none;
+            }
+        }
+
+        .disappear {
+            animation: disappear 1.5s ease-in-out forwards;
+        }
+
+        /* Empty state */
+        .empty-state {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #f9f0f2;
+            justify-content: center;
+            align-items: center;
+            color: #a32435;
+            font-size: 24px;
+            text-align: center;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Password Modal -->
+    <div id="password-modal" class="password-modal">
+        <div class="floating-hearts" id="floating-hearts"></div>
+        <div class="password-container">
+            <h2>🌹 From all the boys of 11.11, with love 🌹</h2>
+            
+            <div class="password-input-container">
+                <input type="password" id="password-input" placeholder="Nhập mật khẩu...">
+            </div>
+            
+            <button id="submit-password">
+                <i class="fas fa-lock-open"></i> Mở khóa
+            </button>
+            
+            <div id="error-message" class="error"></div>
+        </div>
+    </div>
+   <!-- Music Controls -->
+    <div class="music-controls">
+        <div class="music-btn" id="music-toggle">
+            <i class="fas fa-volume-up"></i>
+        </div>
+    </div>
+
+    <!-- Audio Elements -->
+    <audio id="background-music" loop>
+        <source src="./musics/background.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="click-sound">
+        <source src="./musics/click.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="success-sound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-magic-sparkles-3003.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="error-sound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        // Password Logic
+        const passwordModal = document.getElementById('password-modal');
+        const passwordInput = document.getElementById('password-input');
+        const submitButton = document.getElementById('submit-password');
+        const errorMessage = document.getElementById('error-message');
+        const emptyState = document.getElementById('empty-state');
+        const backgroundMusic = document.getElementById('background-music');
+        const clickSound = document.getElementById('click-sound');
+        const successSound = document.getElementById('success-sound');
+        const errorSound = document.getElementById('error-sound');
+        const musicToggle = document.getElementById('music-toggle');
+        const floatingHearts = document.getElementById('floating-hearts');
+
+        const correctPassword = "11.11";
+
+        // Auto play background music when page loads
+        window.addEventListener('load', function() {
+            backgroundMusic.play().catch(function(error) {
+                console.log('Auto-play prevented by browser:', error);
+            });
+        });
+
+        // Create floating hearts for password screen
+        function createFloatingHearts() {
+            for (let i = 0; i < 25; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.style.left = `${Math.random() * 100}%`;
+                heart.style.top = `${Math.random() * 100}%`;
+                heart.style.width = `${10 + Math.random() * 20}px`;
+                heart.style.height = heart.style.width;
+                heart.style.animation = `floatHeart ${8 + Math.random() * 12}s linear infinite`;
+                heart.style.animationDelay = `${Math.random() * 5}s`;
+                heart.style.opacity = `${0.3 + Math.random() * 0.7}`;
+                
+                // Random heart colors
+                const colors = ['#ffb6c1', '#ff9aae', '#ff7f9c', '#ff6b8b', '#ff477e'];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                heart.style.background = color;
+                heart.style.setProperty('--heart-color', color);
+                
+                floatingHearts.appendChild(heart);
+            }
+            
+            // Add CSS for animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes floatHeart {
+                    0% {
+                        transform: translateY(100vh) rotate(45deg) scale(0);
+                        opacity: 0;
+                    }
+                    10% {
+                        opacity: 0.7;
+                    }
+                    90% {
+                        opacity: 0.7;
+                    }
+                    100% {
+                        transform: translateY(-100px) rotate(45deg) scale(1);
+                        opacity: 0;
+                    }
+                }
+                
+                .heart:before, .heart:after {
+                    background: var(--heart-color);
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        // Password submission
+        submitButton.addEventListener('click', () => {
+            // Play click sound and check password simultaneously
+            clickSound.play();
+            
+            if (passwordInput.value === correctPassword) {
+                successSound.play();
+                
+                // Add disappear animation to password modal
+                passwordModal.classList.add('disappear');
+                
+                setTimeout(() => {
+                    passwordModal.style.display = 'none';
+                    // Show empty state immediately
+                    emptyState.style.display = 'flex';
+                    // Stop music
+                    backgroundMusic.pause();
+                    backgroundMusic.currentTime = 0;
+                }, 1500);
+            } else {
+                errorSound.play();
+                errorMessage.textContent = "Sai ròi! Thử lại xem saoo.";
+                passwordInput.style.borderColor = "#ff6b6b";
+                passwordInput.style.boxShadow = "0 0 10px rgba(255, 107, 107, 0.7)";
+                
+                // Reset border color after a delay
+                setTimeout(() => {
+                    passwordInput.style.borderColor = "rgba(255, 182, 193, 0.5)";
+                    passwordInput.style.boxShadow = "none";
+                }, 2000);
+            }
+        });
+
+        // Allow Enter key to submit password
+        passwordInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                submitButton.click();
+            }
+        });
+
+        // Music toggle
+        let isMusicPlaying = true;
+        musicToggle.addEventListener('click', () => {
+            clickSound.play();
+            if (isMusicPlaying) {
+                backgroundMusic.pause();
+                musicToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
+            } else {
+                backgroundMusic.play();
+                musicToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
+            }
+            isMusicPlaying = !isMusicPlaying;
+        });
+
+        // Initialize floating hearts
+        createFloatingHearts();
+
+        // Handle background image error
+        const passwordModalElement = document.querySelector('.password-modal');
+        passwordModalElement.addEventListener('error', function(e) {
+            if (e.target.tagName.toLowerCase() === 'img') {
+                // Fallback to gradient background if image fails to load
+                passwordModalElement.style.background = 'linear-gradient(135deg, #a32435 0%, #d35656 100%)';
+            }
+        }, true);
+    </script>
+</body>
+</html>
